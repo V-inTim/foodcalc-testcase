@@ -1,12 +1,16 @@
 package com.example.foodcalc.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @Table(name = "meals")
+@Data
+@Builder
 public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
