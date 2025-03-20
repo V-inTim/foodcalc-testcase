@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-meal-table
+      author: V-inTim
+      changes:
+        - createTable:
+            tableName: meals
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: meal_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: calories
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: meals
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_meals_user
+            onDelete: CASCADE
+  - changeSet:
+      id: create-meal-dishes-table
+      author: V-inTim
+      changes:
+        - createTable:
+            tableName: meal_dishes
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: meal_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dish_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: meal_dishes
+            baseColumnNames: meal_id
+            referencedTableName: meals
+            referencedColumnNames: id
+            constraintName: fk_meal_dishes_meal
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: meal_dishes
+            baseColumnNames: dish_id
+            referencedTableName: dishes
+            referencedColumnNames: id
+            constraintName: fk_meal_dishes_dish
+            onDelete: CASCADE

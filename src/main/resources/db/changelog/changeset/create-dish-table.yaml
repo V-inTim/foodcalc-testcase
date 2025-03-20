@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-dish-table
+      author: V-inTim
+      changes:
+        - createTable:
+            tableName: dishes
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: calories_per_serving
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: pfc
+                  type: jsonb
+                  constraints:
+                    nullable: false
