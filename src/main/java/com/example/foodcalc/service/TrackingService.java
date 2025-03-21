@@ -10,6 +10,8 @@ import com.example.foodcalc.exception.UserException;
 import com.example.foodcalc.mapper.MealMapper;
 import com.example.foodcalc.repository.MealRepository;
 import com.example.foodcalc.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,8 @@ public class TrackingService {
     private final UserRepository userRepository;
     private final MealRepository mealRepository;
     private final MealMapper mealMapper;
+
+    private static final Logger logger = LoggerFactory.getLogger(TrackingService.class);
 
     @Autowired
     public TrackingService(UserRepository userRepository, MealRepository mealRepository, MealMapper mealMapper) {
@@ -44,6 +48,7 @@ public class TrackingService {
         List<Meal> meals = mealRepository.findByMealDateAndUserId(date, userId);
         int calories = meals.stream().mapToInt(Meal::getCalories).sum();
 
+        logger.info("Отчет создан.");
         return ReportDto.builder()
                 .dailyCalories(calories).build();
     }
@@ -60,6 +65,7 @@ public class TrackingService {
         List<Meal> meals = mealRepository.findByMealDateAndUserId(date, userId);
         int calories = meals.stream().mapToInt(Meal::getCalories).sum();
 
+        logger.info("Проверка проведена.");
         return CheckDto.builder()
                 .isInNorm(calories <= user.getDailyNorm()).build();
     }
@@ -77,6 +83,7 @@ public class TrackingService {
                         Collectors.mapping(mealMapper::mealToDto, Collectors.toList())
                 ));
 
+        logger.info("История собрана.");
         return HistoryDto.builder()
                 .history(history).build();
     }

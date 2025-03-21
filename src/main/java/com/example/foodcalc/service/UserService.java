@@ -12,6 +12,8 @@ import com.example.foodcalc.repository.MealRepository;
 import com.example.foodcalc.repository.UserRepository;
 import com.example.foodcalc.type.Gender;
 import com.example.foodcalc.type.WeightStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,8 @@ public class UserService {
     private final DishRepository dishRepository;
     private final DishMapper dishMapper;
     private final MealRepository mealRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     public UserService(UserRepository userRepository, UserMapper userMapper,
@@ -46,6 +50,7 @@ public class UserService {
         user.setDailyNorm(dailyNorm);
 
         user = userRepository.save(user);
+        logger.info("Пользователь создан.");
         return UserResponseDto.builder()
                 .userId(user.getId())
                 .dailyNorm(dailyNorm).build();
@@ -55,6 +60,7 @@ public class UserService {
         Dish dish = dishMapper.dtoToDish(dto);
 
         dish = dishRepository.save(dish);
+        logger.info("Блюдо создано.");
         return DishResponseDto.builder()
                 .dishId(dish.getId()).build();
     }
@@ -64,6 +70,8 @@ public class UserService {
         if (optionalUser.isEmpty())
             throw new UserException("Пользователь с данным id не существует.");
         User user = optionalUser.get();
+        if (dto.getDishes().isEmpty())
+            throw new UserException("В приеме пищи не заданы блюда.");
 
         List<Dish> dishes = new ArrayList<>();
         int calories = 0;
@@ -82,6 +90,7 @@ public class UserService {
                 .user(user).build();
 
         meal = mealRepository.save(meal);
+        logger.info("Прием пищи добавлен.");
         return MealResponseDto.builder()
                 .mealId(meal.getId()).build();
     }
