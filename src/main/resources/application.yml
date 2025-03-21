@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: foodcalc
+  jpa:
+    hibernate:
+        ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5433/food_db
+    username: take
+    password: take
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+      enabled: true
+
