@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-user
+      author: V-inTim
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(200)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_gender
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: weight
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: height
+                  type: smallint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: purpose
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: daily_norm
+                  type: int
+                  constraints:
+                    nullable: false
